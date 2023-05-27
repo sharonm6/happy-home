@@ -52,12 +52,14 @@ class DatabaseService {
       {bool ateBreakfast = false,
       bool ateLunch = false,
       bool ateDinner = false,
-      int numSnacks = 0}) async {
-    MealLog currMealLog = await getMealLog(uid, date);
+      bool addSnack = false}) async {
+    List<dynamic> mealLogInfo = await getMealLog(uid, date);
+    MealLog currMealLog = mealLogInfo[0];
+    String docId = mealLogInfo[1];
 
-    return await mealLogCollection.doc(uid).set({
+    return await mealLogCollection.doc(docId).set({
       'uid': uid,
-      'date': date,
+      'date': currMealLog.date,
       'ateBreakfast': currMealLog.ateBreakfast != true
           ? ateBreakfast
           : currMealLog.ateBreakfast,
@@ -65,7 +67,7 @@ class DatabaseService {
           currMealLog.ateLunch != true ? ateLunch : currMealLog.ateLunch,
       'ateDinner':
           currMealLog.ateDinner != true ? ateDinner : currMealLog.ateDinner,
-      'numSnacks': currMealLog.numSnacks + 1,
+      'numSnacks': addSnack ? currMealLog.numSnacks + 1 : currMealLog.numSnacks,
     });
   }
 
@@ -75,27 +77,29 @@ class DatabaseService {
     return MealLog.fromData(data ?? {});
   }
 
-  Stream<MealLog> get mealLog {
-    List<DateTime> dayRange = getDayRange(DateTime.now());
-
+  Stream<List<MealLog>> get mealLog {
     return mealLogCollection
         .where('uid', isEqualTo: uid)
-        .where('date', isLessThanOrEqualTo: dayRange[1])
-        .where('date', isGreaterThanOrEqualTo: dayRange[0])
         .snapshots()
         .map((snapshot) {
       if (snapshot.docs.isNotEmpty) {
-        return _mealLogFromSnapshot(snapshot.docs.first);
+        return snapshot.docs.map((doc) {
+          Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+
+          return _mealLogFromSnapshot(doc);
+        }).toList();
       } else {
-        return MealLog(
-          uid: uid,
-          date: DateTime.now(),
-        );
+        return [
+          MealLog(
+            uid: uid,
+            date: DateTime.now(),
+          )
+        ];
       }
     });
   }
 
-  Future<MealLog> getMealLog(String uid, DateTime date) async {
+  Future<List<dynamic>> getMealLog(String uid, DateTime date) async {
     List<DateTime> dayRange = getDayRange(date);
 
     QuerySnapshot querySnapshot = await mealLogCollection
@@ -109,7 +113,7 @@ class DatabaseService {
       Map<String, dynamic> data =
           documentSnapshot.data() as Map<String, dynamic>;
       print(MealLog.fromData(data).ateLunch);
-      return MealLog.fromData(data);
+      return [MealLog.fromData(data), documentSnapshot.id];
     } else {
       throw Exception('No meal log found');
     }
