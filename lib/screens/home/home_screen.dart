@@ -4,6 +4,7 @@ import 'package:happy_home/components/rounded_rectangle.dart';
 import 'package:happy_home/models/user.dart';
 import 'package:happy_home/models/meal_log.dart';
 import 'package:happy_home/screens/home/food_tracker_screen.dart';
+import 'package:happy_home/services/auth.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key, required User user, required List<MealLog> mealLogs})
@@ -19,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final AuthService _auth = AuthService();
   late User _user;
   late List<MealLog> _mealLogs;
 
@@ -39,6 +41,18 @@ class _HomeScreenState extends State<HomeScreen> {
           "Home Page ${_user.name}\n",
         ),
         FoodTrackerScreen(mealLogs: _mealLogs, uid: _user.uid),
+        TextButton(
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+            child: Text(
+              'Logout',
+            ),
+          ),
+          onPressed: () async {
+            await _auth.signOut();
+          },
+        ),
       ]),
     );
   }
