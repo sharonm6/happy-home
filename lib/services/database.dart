@@ -39,7 +39,7 @@ class DatabaseService {
         .map((snapshot) => _userFromSnapshot(snapshot));
   }
 
-  // MealLogs
+  // Helper Functions
 
   List<DateTime> getDayRange(DateTime date) {
     DateTime today = DateTime(date.year, date.month, date.day);
@@ -47,6 +47,8 @@ class DatabaseService {
 
     return [today, tomorrow];
   }
+
+  // MealLogs
 
   Future<void> updateMealLogData(String uid, DateTime date,
       {bool ateBreakfast = false,
@@ -112,10 +114,11 @@ class DatabaseService {
       DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
       Map<String, dynamic> data =
           documentSnapshot.data() as Map<String, dynamic>;
-      print(MealLog.fromData(data).ateLunch);
       return [MealLog.fromData(data), documentSnapshot.id];
     } else {
       throw Exception('No meal log found');
     }
   }
+
+  // WaterLogs
 }

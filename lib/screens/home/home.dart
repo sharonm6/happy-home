@@ -27,24 +27,8 @@ class _HomeState extends State<Home> {
           if (userSnapshot.hasData) {
             User userInfo = userSnapshot.data!;
 
-            return StreamBuilder<List<MealLog>>(
-                stream: widget.databaseService.mealLog,
-                builder: (context, mealSnapshot) {
-                  if (mealSnapshot.hasData) {
-                    List<MealLog> mealInfos = mealSnapshot.data!;
-
-                    return Scaffold(
-                        body: SingleChildScrollView(
-                            child: HomeScreen(
-                                user: userInfo, mealLogs: mealInfos)));
-                  } else {
-                    return Scaffold(
-                      body: Center(
-                        child: Loading(),
-                      ),
-                    );
-                  }
-                });
+            return Scaffold(
+                body: SingleChildScrollView(child: HomeScreen(user: userInfo)));
           } else {
             return Scaffold(
               body: Center(
