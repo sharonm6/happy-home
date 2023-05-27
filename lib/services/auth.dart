@@ -9,16 +9,10 @@ class AuthService {
   User? _userFromFirebaseUser(firebase_auth.User? user,
       {String name = '', String email = ''}) {
     return User(
-        uid: user?.uid ?? '',
-        name: name,
-        email: email,
-        hasCar: false,
-        isDarkMode: false,
-        cookiesSaved: true,
-        localStorageSaved: true,
-        geolocationEnabled: true,
-        isVegetarian: false,
-        isVegan: false);
+      uid: user?.uid ?? '',
+      name: name,
+      email: email,
+    );
   }
 
   // auth change user stream
