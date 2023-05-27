@@ -6,13 +6,13 @@ import 'package:happy_home/models/meal_log.dart';
 import 'package:happy_home/screens/home/food_tracker_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key, required User user, required MealLog mealLog})
+  HomeScreen({Key? key, required User user, required List<MealLog> mealLogs})
       : _user = user,
-        _mealLog = mealLog,
+        _mealLogs = mealLogs,
         super(key: key);
 
   final User _user;
-  final MealLog _mealLog;
+  final List<MealLog> _mealLogs;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -20,12 +20,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late User _user;
-  late MealLog _mealLog;
+  late List<MealLog> _mealLogs;
 
   @override
   void initState() {
     _user = widget._user;
-    _mealLog = widget._mealLog;
+    _mealLogs = widget._mealLogs;
 
     super.initState();
   }
@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Text(
           "Home Page ${_user.name}\n",
         ),
-        FoodTrackerScreen(mealLog: _mealLog, uid: _user.uid),
+        FoodTrackerScreen(mealLogs: _mealLogs, uid: _user.uid),
       ]),
     );
   }

@@ -21,22 +21,22 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // final mealLog = Provider.of<MealLog>(context);
-
     return StreamBuilder<User>(
         stream: widget.databaseService.user,
         builder: (context, userSnapshot) {
           if (userSnapshot.hasData) {
             User userInfo = userSnapshot.data!;
 
-            return StreamBuilder<MealLog>(
+            return StreamBuilder<List<MealLog>>(
                 stream: widget.databaseService.mealLog,
                 builder: (context, mealSnapshot) {
                   if (mealSnapshot.hasData) {
-                    MealLog mealInfo = mealSnapshot.data!;
+                    List<MealLog> mealInfos = mealSnapshot.data!;
 
                     return Scaffold(
-                        body: HomeScreen(user: userInfo, mealLog: mealInfo));
+                        body: SingleChildScrollView(
+                            child: HomeScreen(
+                                user: userInfo, mealLogs: mealInfos)));
                   } else {
                     return Scaffold(
                       body: Center(
