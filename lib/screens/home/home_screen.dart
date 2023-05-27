@@ -29,9 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(30),
-      child: Column(children: [
+    return Column(children: [
         Text(
           "Home Page ${_user.name}\n",
         ),
@@ -48,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
             await _auth.signOut();
           },
         ),
-      ]),
+      ]
     );
   }
 }

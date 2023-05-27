@@ -27,30 +27,121 @@ class _FoodTrackerScreenState extends State<FoodTrackerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String? mealTableImg;
+
     return StreamBuilder<List<MealLog>>(
         stream: databaseService.mealLog,
         builder: (context, mealSnapshot) {
           if (mealSnapshot.hasData) {
             List<MealLog> mealInfos = mealSnapshot.data!;
-            return Padding(
-                padding: const EdgeInsets.all(30),
-                child: Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    child: ListView.builder(
-                      itemCount: mealInfos.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            MealTile(
-                                mealLog: mealInfos[index], uid: widget._uid),
-                            SizedBox(height: 50.0),
-                          ],
-                        );
-                      },
-                    )));
+            MealLog mealLog = mealInfos[0];
+
+            if (!mealLog.ateBreakfast &&
+                !mealLog.ateLunch &&
+                !mealLog.ateDinner) {
+              mealTableImg = "assets/meal_table_000.png";
+            } else if (mealLog.ateBreakfast &&
+                !mealLog.ateLunch &&
+                !mealLog.ateDinner) {
+              mealTableImg = "assets/meal_table_100.png";
+            } else if (!mealLog.ateBreakfast &&
+                mealLog.ateLunch &&
+                !mealLog.ateDinner) {
+              mealTableImg = "assets/meal_table_010.png";
+            } else if (!mealLog.ateBreakfast &&
+                !mealLog.ateLunch &&
+                mealLog.ateDinner) {
+              mealTableImg = "assets/meal_table_001.png";
+            } else if (mealLog.ateBreakfast &&
+                mealLog.ateLunch &&
+                !mealLog.ateDinner) {
+              mealTableImg = "assets/meal_table_110.png";
+            } else if (mealLog.ateBreakfast &&
+                !mealLog.ateLunch &&
+                mealLog.ateDinner) {
+              mealTableImg = "assets/meal_table_101.png";
+            } else if (!mealLog.ateBreakfast &&
+                mealLog.ateLunch &&
+                mealLog.ateDinner) {
+              mealTableImg = "assets/meal_table_011.png";
+            } else {
+              mealTableImg = "assets/meal_table_111.png";
+            }
+
+            return Column(
+              children: [ Stack(
+                children: [ SizedBox(
+                  child: Center(
+                    child: Align (
+                    alignment: Alignment.bottomCenter,
+                    child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
+                    children: [ElevatedButton(
+                    onPressed: () async => {
+                            await DatabaseService().updateMealLogData(
+                                widget._uid, DateTime.now(),
+                                ateBreakfast: true)
+                          },
+                    child:  Text(
+                        'Ate\nBreakfast',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 30,
+                        )
+                      ),
+                      style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(70),
+                      backgroundColor: Colors.blue, // <-- Button color
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async => {
+                            await DatabaseService().updateMealLogData(
+                                widget._uid, DateTime.now(),
+                                ateLunch: true)
+                          },
+                    child:  Text(
+                        'Ate\nLunch',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 30,
+                        )
+                      ),
+                      style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(70),
+                      backgroundColor: Colors.blue, // <-- Button color
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async => {
+                            await DatabaseService().updateMealLogData(
+                                widget._uid, DateTime.now(),
+                                ateDinner: true)
+                          },
+                    child:  Text(
+                        'Ate\nDinner',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 30,
+                        )
+                      ),
+                      style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(70),
+                      backgroundColor: Colors.blue, // <-- Button color
+                    ),
+                  ),])))),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Image.asset(
+                    mealTableImg ?? 'assets/meal_table_000.png',
+                  ),
+                ),
+              ])]);
           } else {
-            return SizedBox(height: 40.0);
+            return SizedBox(height: 0);
           }
         });
   }
