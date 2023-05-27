@@ -31,9 +31,7 @@ class _HomeState extends State<Home> {
                 body: SingleChildScrollView(child: HomeScreen(user: userInfo)));
           } else {
             return Scaffold(
-              body: Center(
-                child: Loading(),
-              ),
+              body: SizedBox(height: 20.0),
             );
           }
         });

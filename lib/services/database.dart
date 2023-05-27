@@ -50,6 +50,20 @@ class DatabaseService {
 
   // MealLogs
 
+  Future<void> createMealLog(
+    String uid,
+    DateTime date,
+  ) async {
+    await mealLogCollection.add({
+      "uid": uid,
+      "date": date,
+      "ateBreakfast": false,
+      "ateLunch": false,
+      "ateDinner": false,
+      "numSnacks": 0,
+    });
+  }
+
   Future<void> updateMealLogData(String uid, DateTime date,
       {bool ateBreakfast = false,
       bool ateLunch = false,

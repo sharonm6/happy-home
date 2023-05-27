@@ -50,7 +50,7 @@ class _FoodTrackerScreenState extends State<FoodTrackerScreen> {
                       },
                     )));
           } else {
-            return Loading();
+            return SizedBox(height: 40.0);
           }
         });
   }
