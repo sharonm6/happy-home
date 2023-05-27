@@ -11,21 +11,9 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
 
-    // // return either the Home or Authenticate widget
-    // if (user == null) {
-    //   return Authenticate();
-    // } else if (user.uid.isEmpty) {
-    //   return Loading();
-    // } else {
-    //   final databaseService = DatabaseService(uid: user.uid);
-
-    //   return Home(user: user, databaseService: databaseService);
-    // }
-
     if (user == null) {
       return Loading();
     } else {
-      // User is not null, check the uid
       if (user.uid.isEmpty) {
         return Authenticate();
       } else {

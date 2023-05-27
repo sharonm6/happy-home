@@ -1,3 +1,4 @@
+import 'package:happy_home/models/meal_log.dart';
 import 'package:happy_home/screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -28,6 +29,15 @@ class Main extends StatelessWidget {
             return User(uid: ''); // Provide a fallback user value
           },
         ),
+        // StreamProvider<MealLog>.value(
+        //   value: DatabaseService().mealLog,
+        //   initialData: MealLog(uid: '', date: DateTime.now()),
+        //   catchError: (context, error) {
+        //     print('Error occurred: $error ');
+        //     return MealLog(
+        //         uid: '', date: DateTime.now()); // Provide a fallback user value
+        //   },
+        // )
       ],
       child: MaterialApp(home: Wrapper(), debugShowCheckedModeBanner: false),
     );
