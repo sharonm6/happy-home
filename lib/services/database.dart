@@ -12,41 +12,20 @@ class DatabaseService {
 
   // Users
 
-  Future<void> updateUserData(String name, String email,
-      {bool hasCar = false,
-      bool isDarkMode = false,
-      cookiesSaved = true,
-      localStorageSaved = true,
-      geolocationEnabled = true,
-      isVegetarian = false,
-      isVegan = false}) async {
+  Future<void> updateUserData(
+    String name,
+    String email,
+  ) async {
     return await userCollection.doc(uid).set({
       'name': name,
       'email': email,
-      'hasCar': hasCar,
-      'isDarkMode': isDarkMode,
-      'cookiesSaved': cookiesSaved,
-      'localStorageSaved': localStorageSaved,
-      'geolocationEnabled': geolocationEnabled,
-      'isVegetarian': isVegetarian,
-      'isVegan': isVegan
     });
   }
 
   User _userFromSnapshot(DocumentSnapshot snapshot) {
     Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
 
-    return User(
-        uid: uid,
-        name: data?['name'],
-        email: data?['email'],
-        hasCar: data?['hasCar'],
-        isDarkMode: data?['isDarkMode'],
-        cookiesSaved: data?['cookiesSaved'],
-        localStorageSaved: data?['localStorageSaved'],
-        geolocationEnabled: data?['geolocationEnabled'],
-        isVegetarian: data?['isVegetarian'],
-        isVegan: data?['isVegan']);
+    return User(uid: uid, name: data?['name'], email: data?['email']);
   }
 
   Stream<User> get user {
