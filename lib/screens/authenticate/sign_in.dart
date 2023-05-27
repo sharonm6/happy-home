@@ -39,6 +39,7 @@ class _SignInState extends State<SignIn> {
                         style: TextStyle(color: ColorConstants.happyhomeBrownDark, fontSize: 30.0)),
                     SizedBox(height: 40.0),
                     TextFormField(
+                      style: TextStyle(color: ColorConstants.happyhomeBrown, fontSize: 14.0),
                       decoration:
                           textInputDecoration.copyWith(hintText: 'Your email'),
                       validator: (val) => val != null && val.isEmpty
@@ -48,6 +49,7 @@ class _SignInState extends State<SignIn> {
                     ),
                     SizedBox(height: 20.0),
                     TextFormField(
+                      style: TextStyle(color: ColorConstants.happyhomeBrown, fontSize: 14.0),
                       decoration:
                           textInputDecoration.copyWith(hintText: 'Password'),
                       obscureText: true,
@@ -94,7 +96,7 @@ class _SignInState extends State<SignIn> {
                     SizedBox(height: 12.0),
                     Text(
                       error,
-                      style: TextStyle(color: ColorConstants.happyhomeOffWhite, fontSize: 14.0),
+                      style: TextStyle(color: Colors.red, fontSize: 14.0),
                     ),
                     TextButton(
                       child: Text(
