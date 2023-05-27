@@ -27,7 +27,7 @@ class _SignInState extends State<SignIn> {
     return loading
         ? Loading()
         : Scaffold(
-            backgroundColor: Colors.brown,
+            backgroundColor: Colors.white,
             body: Container(
               padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
               child: Form(
@@ -36,7 +36,7 @@ class _SignInState extends State<SignIn> {
                   children: <Widget>[
                     SizedBox(height: 20.0),
                     Text("Hello Again!",
-                        style: Theme.of(context).textTheme.headlineMedium),
+                        style: TextStyle(color: ColorConstants.happyhomeBrownDark, fontSize: 30.0)),
                     SizedBox(height: 40.0),
                     TextFormField(
                       decoration:
@@ -59,14 +59,14 @@ class _SignInState extends State<SignIn> {
                     SizedBox(height: 30.0),
                     TextButton(
                         style: TextButton.styleFrom(
-                          backgroundColor: Colors.green,
+                          backgroundColor: ColorConstants.happyhomeBlueLight,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 8.0, horizontal: 20.0),
                           child: Text(
                             'Sign In',
-                            style: Theme.of(context).textTheme.labelLarge,
+                            style: TextStyle(color: ColorConstants.happyhomeBrownDark, fontSize: 14.0),
                           ),
                         ),
                         onPressed: () async {
@@ -94,12 +94,12 @@ class _SignInState extends State<SignIn> {
                     SizedBox(height: 12.0),
                     Text(
                       error,
-                      style: TextStyle(color: Colors.red, fontSize: 14.0),
+                      style: TextStyle(color: ColorConstants.happyhomeOffWhite, fontSize: 14.0),
                     ),
                     TextButton(
                       child: Text(
                         'Don\'t have an account? Sign Up',
-                        style: Theme.of(context).textTheme.labelSmall,
+                        style: TextStyle(color: ColorConstants.happyhomeBrownDark, fontSize: 12.0),
                       ),
                       onPressed: () => widget.toggleView(),
                     ),

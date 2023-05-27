@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:happy_home/config/color_constants.dart';
 
 final textInputDecoration = InputDecoration(
-  fillColor: Colors.brown,
+  fillColor: ColorConstants.happyhomeGreyLight,
   filled: true,
   contentPadding: EdgeInsets.all(12.0),
   enabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.brown, width: 2.0),
+    borderSide: BorderSide(color: ColorConstants.happyhomeGreyLight, width: 2.0),
   ),
   focusedBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.green, width: 2.0),
+    borderSide: BorderSide(color: ColorConstants.happyhomeOffWhite, width: 2.0),
   ),
+  hintStyle: TextStyle(color: ColorConstants.happyhomeBrown, fontSize: 14.0),
 );
 
 final simpleInputDecoration = InputDecoration(

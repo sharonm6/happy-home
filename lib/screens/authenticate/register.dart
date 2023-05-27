@@ -28,7 +28,7 @@ class _RegisterState extends State<Register> {
     return loading
         ? Loading()
         : Scaffold(
-            backgroundColor: Colors.brown,
+            backgroundColor: Colors.white,
             body: Container(
               padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
               child: Form(
@@ -37,9 +37,10 @@ class _RegisterState extends State<Register> {
                   children: <Widget>[
                     SizedBox(height: 20.0),
                     Text("Welcome!",
-                        style: Theme.of(context).textTheme.headlineMedium),
+                        style: TextStyle(color: ColorConstants.happyhomeBrownDark, fontSize: 30.0)),
                     SizedBox(height: 40.0),
                     TextFormField(
+                      style: TextStyle(color: ColorConstants.happyhomeBrown, fontSize: 14.0),
                       decoration:
                           textInputDecoration.copyWith(hintText: 'Name'),
                       validator: (val) => val != null && val.isEmpty
@@ -49,6 +50,7 @@ class _RegisterState extends State<Register> {
                     ),
                     SizedBox(height: 20.0),
                     TextFormField(
+                      style: TextStyle(color: ColorConstants.happyhomeBrown, fontSize: 14.0),
                       decoration:
                           textInputDecoration.copyWith(hintText: 'Email'),
                       validator: (val) => val != null && val.isEmpty
@@ -58,6 +60,7 @@ class _RegisterState extends State<Register> {
                     ),
                     SizedBox(height: 20.0),
                     TextFormField(
+                      style: TextStyle(color: ColorConstants.happyhomeBrown, fontSize: 14.0),
                       decoration:
                           textInputDecoration.copyWith(hintText: 'Password'),
                       obscureText: true,
@@ -69,14 +72,14 @@ class _RegisterState extends State<Register> {
                     SizedBox(height: 30.0),
                     TextButton(
                         style: TextButton.styleFrom(
-                          backgroundColor: Colors.green,
+                          backgroundColor: ColorConstants.happyhomeBlueLight,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 8.0, horizontal: 20.0),
                           child: Text(
                             'Create Account',
-                            style: Theme.of(context).textTheme.labelLarge,
+                            style: TextStyle(color: ColorConstants.happyhomeBrown, fontSize: 14.0),
                           ),
                         ),
                         onPressed: () async {
@@ -128,7 +131,7 @@ class _RegisterState extends State<Register> {
                     TextButton(
                       child: Text(
                         'Already have an account? Log In',
-                        style: Theme.of(context).textTheme.labelSmall,
+                        style: TextStyle(color: ColorConstants.happyhomeBrownDark, fontSize: 12.0),
                       ),
                       onPressed: () => widget.toggleView(),
                     ),

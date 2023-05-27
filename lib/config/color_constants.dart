@@ -11,12 +11,20 @@ Color hexToColor(String hex) {
 }
 
 class ColorConstants {
-  static Color happyhomeBrownLight = hexToColor('#CCAE88');
+  static Color happyhomeBrownLight = hexToColor('#edc798');
+  static Color happyhomeBrown = hexToColor('#8a624a');
+  static Color happyhomeBrownDark = hexToColor('#634836');
 
   static Color happyhomeBlueLight = hexToColor('#7FDFFF');
-  static Color happyhomeBlueDark = hexToColor('#173753');
+  static Color happyhomeBlueLighter = hexToColor('#e6f6f7');
+  static Color happyhomeBlue = hexToColor('#2C5975');
+  static Color happyhomeBlueDark = hexToColor('#c9ebc6');    //946d51);   //173753
 
   static Color happyhomeGreenLight = hexToColor('#C9EBC6');
 
   static Color happyhomePurpleLight = hexToColor('#B0B7F7');
+
+  static Color happyhomeOffWhite = hexToColor('#f0f0f0');
+
+  static Color happyhomeGreyLight = hexToColor('#f0f5f5');
 }
