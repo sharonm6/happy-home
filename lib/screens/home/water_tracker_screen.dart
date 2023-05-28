@@ -92,15 +92,6 @@ class _WaterTrackerScreenState extends State<WaterTrackerScreen> {
                   Text("Drank 1 cup", style: TextStyle(fontSize: 18)),
                 ]),
               ])
-              // TextButton(
-              //     onPressed: () async => {
-              //           await DatabaseService().updateWaterLogData(
-              //               _waterLog.uid, DateTime.now(),
-              //               numCupsAdd: 1)
-              //         },
-              //     child: Text(
-              //       "Toggle cupsDrank: ${_waterLog?.cupsDrank}",
-              //     )),
             ]);
           } else {
             return SizedBox(height: 0);

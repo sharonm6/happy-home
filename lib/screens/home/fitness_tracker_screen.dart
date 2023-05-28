@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:happy_home/models/fitness_log.dart';
-import 'package:happy_home/components/loading.dart';
 import 'package:happy_home/services/database.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 class FitnessTrackerScreen extends StatefulWidget {
   FitnessTrackerScreen({Key? key, required String uid})
@@ -34,29 +34,69 @@ class _FitnessTrackerScreenState extends State<FitnessTrackerScreen> {
             FitnessLog _fitnessLog = fitnessInfos[0];
 
             return Column(children: [
-              ListTile(
-                leading: CircleAvatar(
-                  radius: 25.0,
-                  backgroundColor: Colors.brown[400],
+              SizedBox(height: 16),
+              PieChart(
+                dataMap: {
+                  "Gym": _fitnessLog.gymTime,
+                  "Walk": _fitnessLog.walkTime,
+                  "Yoga": _fitnessLog.yogaTime,
+                  "N/A": 24 -
+                      (_fitnessLog.gymTime +
+                          _fitnessLog.walkTime +
+                          _fitnessLog.yogaTime),
+                },
+                legendOptions: LegendOptions(
+                  showLegendsInRow: true,
+                  legendPosition: LegendPosition.bottom,
                 ),
-                title: Text(_fitnessLog.date.toString()),
-                subtitle: Text(
-                  '${_fitnessLog.uid} uid\n'
-                  '${_fitnessLog.date} date\n'
-                  '${_fitnessLog.gymTime} hours of gym\n'
-                  '${_fitnessLog.walkTime} hours of walking\n'
-                  '${_fitnessLog.yogaTime} hours of yoga\n',
-                ),
+                chartRadius: MediaQuery.of(context).size.width / 1.5,
+                colorList: [
+                  Colors.blue[300]!,
+                  Colors.orange[300]!,
+                  Colors.purple[300]!,
+                  Colors.grey[300]!,
+                ],
+                baseChartColor: Colors.grey[300]!,
               ),
-              TextButton(
-                  onPressed: () async => {
-                        await DatabaseService().updateFitnessLogData(
-                            widget._uid, DateTime.now(),
-                            incGymTime: 2)
-                      },
-                  child: Text(
-                    "Toggle gym time: ${_fitnessLog?.gymTime}",
-                  )),
+              SizedBox(height: 16),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                Column(children: [
+                  IconButton(
+                    icon: Image.asset('assets/fitness_gym.png'),
+                    iconSize: 140,
+                    onPressed: () async => {
+                      await DatabaseService().updateFitnessLogData(
+                          _fitnessLog.uid, DateTime.now(),
+                          incGymTime: .5)
+                    },
+                  ),
+                  Text("Gym (+30min)", style: TextStyle(fontSize: 18)),
+                ]),
+                Column(children: [
+                  IconButton(
+                    icon: Image.asset('assets/fitness_walk.png'),
+                    iconSize: 140,
+                    onPressed: () async => {
+                      await DatabaseService().updateFitnessLogData(
+                          _fitnessLog.uid, DateTime.now(),
+                          incWalkTime: .5)
+                    },
+                  ),
+                  Text("Walk (+30min)", style: TextStyle(fontSize: 18)),
+                ]),
+                Column(children: [
+                  IconButton(
+                    icon: Image.asset('assets/fitness_yoga.png'),
+                    iconSize: 140,
+                    onPressed: () async => {
+                      await DatabaseService().updateFitnessLogData(
+                          _fitnessLog.uid, DateTime.now(),
+                          incYogaTime: .5)
+                    },
+                  ),
+                  Text("Yoga (+30min)", style: TextStyle(fontSize: 18)),
+                ]),
+              ])
             ]);
           } else {
             return SizedBox(height: 0);
