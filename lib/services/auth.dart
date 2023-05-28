@@ -38,12 +38,18 @@ class AuthService {
         if (lastLoginDay.isBefore(currLoginDay)) {
           await DatabaseService(uid: user!.uid)
               .createMealLog(user!.uid, DateTime.now());
-          await DatabaseService(uid: user!.uid)
-              .createWaterLog(user!.uid, DateTime.now());
+          await DatabaseService(uid: user!.uid).createWaterLog(
+              user!.uid, DateTime.now(),
+              numDaysOld: await DatabaseService()
+                  .getWaterLog(user.uid, DateTime.now())
+                  .then((info) => info[0].agedUp ? info[0].numDaysOld : 0));
           await DatabaseService(uid: user!.uid)
               .createFitnessLog(user!.uid, DateTime.now());
-          await DatabaseService(uid: user!.uid)
-              .createPeriodLog(user!.uid, DateTime.now());
+          await DatabaseService(uid: user!.uid).createPeriodLog(
+              user!.uid, DateTime.now(),
+              duration: await DatabaseService()
+                  .getPeriodLog(user.uid, DateTime.now())
+                  .then((info) => info[0].duration));
         }
       }
       return user;

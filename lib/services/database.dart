@@ -149,15 +149,13 @@ class DatabaseService {
 
   // WaterLogs
 
-  Future<void> createWaterLog(
-    String uid,
-    DateTime date,
-  ) async {
+  Future<void> createWaterLog(String uid, DateTime date,
+      {int numDaysOld = 0}) async {
     await waterLogCollection.add({
       "uid": uid,
       "date": date,
       "cupsDrank": 0.0,
-      "numDaysOld": 0,
+      "numDaysOld": numDaysOld,
       "agedUp": false,
     });
   }
@@ -314,15 +312,13 @@ class DatabaseService {
 
   // PeriodLogs
 
-  Future<void> createPeriodLog(
-    String uid,
-    DateTime date,
-  ) async {
+  Future<void> createPeriodLog(String uid, DateTime date,
+      {int duration = 0}) async {
     await periodLogCollection.add({
       "uid": uid,
       "date": date,
       "currently": false,
-      "duration": 0,
+      "duration": duration,
     });
   }
 
