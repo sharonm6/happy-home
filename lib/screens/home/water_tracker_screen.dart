@@ -63,6 +63,7 @@ class _WaterTrackerScreenState extends State<WaterTrackerScreen> {
                   style: TextStyle(fontSize: 24),
                 ),
               ),
+              SizedBox(height: 8),
               Center(
                 child: Text(
                   "${_waterLog.numDaysOld} Day(s) Old",
