@@ -4,6 +4,8 @@ import 'package:happy_home/components/rounded_rectangle.dart';
 import 'package:happy_home/models/user.dart';
 import 'package:happy_home/screens/home/food_tracker_screen.dart';
 import 'package:happy_home/screens/home/water_tracker_screen.dart';
+import 'package:happy_home/screens/home/fitness_tracker_screen.dart';
+import 'package:happy_home/screens/home/period_tracker_screen.dart';
 import 'package:happy_home/services/auth.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -34,6 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
       Text(
         "Home Page ${_user.name}\n",
       ),
+      PeriodTrackerScreen(uid: _user.uid),
+      FitnessTrackerScreen(uid: _user.uid),
       WaterTrackerScreen(uid: _user.uid),
       FoodTrackerScreen(uid: _user.uid),
       TextButton(
