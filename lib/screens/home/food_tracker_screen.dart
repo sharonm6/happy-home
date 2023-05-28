@@ -3,6 +3,7 @@ import 'package:happy_home/models/meal_log.dart';
 import 'package:happy_home/screens/home/meal_tile.dart';
 import 'package:happy_home/components/loading.dart';
 import 'package:happy_home/services/database.dart';
+import 'package:happy_home/screens/home/food_calendar.dart';
 
 class FoodTrackerScreen extends StatefulWidget {
   FoodTrackerScreen({Key? key, required String uid})
@@ -34,7 +35,7 @@ class _FoodTrackerScreenState extends State<FoodTrackerScreen> {
         builder: (context, mealSnapshot) {
           if (mealSnapshot.hasData) {
             List<MealLog> mealInfos = mealSnapshot.data!;
-            MealLog mealLog = mealInfos[0];
+            MealLog mealLog = mealInfos[mealInfos.length - 1];
 
             if (!mealLog.ateBreakfast &&
                 !mealLog.ateLunch &&
@@ -70,9 +71,7 @@ class _FoodTrackerScreenState extends State<FoodTrackerScreen> {
 
             return Column(children: [
               Text('Food Tracker', style: TextStyle(fontSize: 30)),
-              SizedBox(
-                height: 300,
-              ),
+              FoodCalendar(uid: widget._uid, mealLogs: mealInfos),
               Center(
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
