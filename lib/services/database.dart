@@ -1,7 +1,9 @@
+import 'package:happy_home/models/period_log.dart';
 import 'package:happy_home/models/user.dart';
 import 'package:happy_home/models/meal_log.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:happy_home/models/water_log.dart';
+import 'package:happy_home/models/fitness_log.dart';
 
 class DatabaseService {
   final String uid;
@@ -17,6 +19,12 @@ class DatabaseService {
 
   final CollectionReference waterLogCollection =
       FirebaseFirestore.instance.collection('water_logs');
+
+  final CollectionReference fitnessLogCollection =
+      FirebaseFirestore.instance.collection('fitness_logs');
+
+  final CollectionReference periodLogCollection =
+      FirebaseFirestore.instance.collection('period_logs');
 
   // Users
 
@@ -217,7 +225,169 @@ class DatabaseService {
           documentSnapshot.data() as Map<String, dynamic>;
       return [WaterLog.fromData(data), documentSnapshot.id];
     } else {
-      throw Exception('No meal log found');
+      throw Exception('No water log found');
+    }
+  }
+
+  // FitnessLogs
+
+  Future<void> createFitnessLog(
+    String uid,
+    DateTime date,
+  ) async {
+    await fitnessLogCollection.add({
+      "uid": uid,
+      "date": date,
+      "gymTime": 0.0,
+      "walkTime": 0.0,
+      "yogaTime": 0.0,
+    });
+  }
+
+  Future<void> updateFitnessLogData(
+    String uid,
+    DateTime date, {
+    double incGymTime = 0.0,
+    double incWalkTime = 0.0,
+    double incYogaTime = 0.0,
+  }) async {
+    List<dynamic> fitnessLogInfo = await getFitnessLog(uid, date);
+    FitnessLog currFitnessLog = fitnessLogInfo[0];
+    String docId = fitnessLogInfo[1];
+
+    return await fitnessLogCollection.doc(docId).set({
+      'uid': uid,
+      'date': currFitnessLog.date,
+      'gymTime': currFitnessLog.gymTime + incGymTime,
+      'walkTime': currFitnessLog.walkTime + incWalkTime,
+      'yogaTime': currFitnessLog.yogaTime + incYogaTime
+    });
+  }
+
+  FitnessLog _fitnessLogFromSnapshot(DocumentSnapshot snapshot) {
+    Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+
+    return FitnessLog.fromData(data ?? {});
+  }
+
+  Stream<List<FitnessLog>> get fitnessLog {
+    return fitnessLogCollection
+        .where('uid', isEqualTo: uid)
+        .snapshots()
+        .map((snapshot) {
+      if (snapshot.docs.isNotEmpty) {
+        return snapshot.docs.map((doc) {
+          Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+
+          return _fitnessLogFromSnapshot(doc);
+        }).toList();
+      } else {
+        return [
+          FitnessLog(
+            uid: uid,
+            date: DateTime.now(),
+          )
+        ];
+      }
+    });
+  }
+
+  Future<List<dynamic>> getFitnessLog(String uid, DateTime date) async {
+    List<DateTime> dayRange = getDayRange(date);
+
+    QuerySnapshot querySnapshot = await fitnessLogCollection
+        .where('uid', isEqualTo: uid)
+        .where('date', isLessThanOrEqualTo: dayRange[1])
+        .where('date', isGreaterThanOrEqualTo: dayRange[0])
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      return [FitnessLog.fromData(data), documentSnapshot.id];
+    } else {
+      throw Exception('No fitness log found');
+    }
+  }
+
+  // PeriodLogs
+
+  Future<void> createPeriodLog(
+    String uid,
+    DateTime date,
+  ) async {
+    await periodLogCollection.add({
+      "uid": uid,
+      "date": date,
+      "currently": false,
+      "duration": 0,
+    });
+  }
+
+  Future<void> updatePeriodLogData(
+    String uid,
+    DateTime date, {
+    bool currently = false,
+  }) async {
+    List<dynamic> periodLogInfo = await getPeriodLog(uid, date);
+    PeriodLog currPeriodLog = periodLogInfo[0];
+    String docId = periodLogInfo[1];
+
+    return await periodLogCollection.doc(docId).set({
+      'uid': uid,
+      'date': currPeriodLog.date,
+      'currently': currPeriodLog.currently || currently,
+      'duration': (currently && (currPeriodLog.currently != currently))
+          ? currPeriodLog.duration + 1
+          : currPeriodLog.duration,
+    });
+  }
+
+  PeriodLog _periodLogFromSnapshot(DocumentSnapshot snapshot) {
+    Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+
+    return PeriodLog.fromData(data ?? {});
+  }
+
+  Stream<List<PeriodLog>> get periodLog {
+    return periodLogCollection
+        .where('uid', isEqualTo: uid)
+        .snapshots()
+        .map((snapshot) {
+      if (snapshot.docs.isNotEmpty) {
+        return snapshot.docs.map((doc) {
+          Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+
+          return _periodLogFromSnapshot(doc);
+        }).toList();
+      } else {
+        return [
+          PeriodLog(
+            uid: uid,
+            date: DateTime.now(),
+          )
+        ];
+      }
+    });
+  }
+
+  Future<List<dynamic>> getPeriodLog(String uid, DateTime date) async {
+    List<DateTime> dayRange = getDayRange(date);
+
+    QuerySnapshot querySnapshot = await periodLogCollection
+        .where('uid', isEqualTo: uid)
+        .where('date', isLessThanOrEqualTo: dayRange[1])
+        .where('date', isGreaterThanOrEqualTo: dayRange[0])
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      return [PeriodLog.fromData(data), documentSnapshot.id];
+    } else {
+      throw Exception('No period log found');
     }
   }
 }
