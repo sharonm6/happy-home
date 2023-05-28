@@ -1,6 +1,7 @@
 import 'package:happy_home/models/user.dart';
 import 'package:happy_home/models/meal_log.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:happy_home/models/water_log.dart';
 
 class DatabaseService {
   final String uid;
@@ -13,6 +14,9 @@ class DatabaseService {
 
   final CollectionReference mealLogCollection =
       FirebaseFirestore.instance.collection('meal_logs');
+
+  final CollectionReference waterLogCollection =
+      FirebaseFirestore.instance.collection('water_logs');
 
   // Users
 
@@ -135,4 +139,85 @@ class DatabaseService {
   }
 
   // WaterLogs
+
+  Future<void> createWaterLog(
+    String uid,
+    DateTime date,
+  ) async {
+    await waterLogCollection.add({
+      "uid": uid,
+      "date": date,
+      "cupsDrank": 0.0,
+      "numDaysOld": 0,
+      "agedUp": false,
+    });
+  }
+
+  Future<void> updateWaterLogData(
+    String uid,
+    DateTime date, {
+    double numCupsAdd = 0,
+  }) async {
+    List<dynamic> waterLogInfo = await getWaterLog(uid, date);
+    WaterLog currWaterLog = waterLogInfo[0];
+    String docId = waterLogInfo[1];
+
+    return await waterLogCollection.doc(docId).set({
+      'uid': uid,
+      'date': currWaterLog.date,
+      'cupsDrank': currWaterLog.cupsDrank + numCupsAdd,
+      'numDaysOld':
+          ((!currWaterLog.agedUp && currWaterLog.cupsDrank + numCupsAdd >= 8))
+              ? currWaterLog.numDaysOld + 1
+              : currWaterLog.numDaysOld,
+      'agedUp': currWaterLog.cupsDrank + numCupsAdd >= 8 ? true : false
+    });
+  }
+
+  WaterLog _waterLogFromSnapshot(DocumentSnapshot snapshot) {
+    Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+
+    return WaterLog.fromData(data ?? {});
+  }
+
+  Stream<List<WaterLog>> get waterLog {
+    return waterLogCollection
+        .where('uid', isEqualTo: uid)
+        .snapshots()
+        .map((snapshot) {
+      if (snapshot.docs.isNotEmpty) {
+        return snapshot.docs.map((doc) {
+          Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+
+          return _waterLogFromSnapshot(doc);
+        }).toList();
+      } else {
+        return [
+          WaterLog(
+            uid: uid,
+            date: DateTime.now(),
+          )
+        ];
+      }
+    });
+  }
+
+  Future<List<dynamic>> getWaterLog(String uid, DateTime date) async {
+    List<DateTime> dayRange = getDayRange(date);
+
+    QuerySnapshot querySnapshot = await waterLogCollection
+        .where('uid', isEqualTo: uid)
+        .where('date', isLessThanOrEqualTo: dayRange[1])
+        .where('date', isGreaterThanOrEqualTo: dayRange[0])
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      return [WaterLog.fromData(data), documentSnapshot.id];
+    } else {
+      throw Exception('No meal log found');
+    }
+  }
 }

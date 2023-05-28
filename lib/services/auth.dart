@@ -44,6 +44,8 @@ class AuthService {
       await DatabaseService(uid: user!.uid).updateUserData(name, email);
       await DatabaseService(uid: user!.uid)
           .createMealLog(user!.uid, DateTime.now());
+      await DatabaseService(uid: user!.uid)
+          .createWaterLog(user!.uid, DateTime.now());
       return _userFromFirebaseUser(user, name: name, email: email);
     } catch (error) {
       print(error.toString());
