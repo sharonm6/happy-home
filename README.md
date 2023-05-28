@@ -1,4 +1,4 @@
-# happy_home
+# Happy Home
 Happy home = happy life. Introducing a minimalist all-in-one food, water, fitness, and period tracker to aid you in keeping track of your well-being. Have fun adding snacks, growing your plant + more!
 ## Inspiration
 It all started with us being unhappy with how most period trackers look. With how most period trackers look, we felt that they were too complex for our needs. We wanted to design our own that was both functional and with a design that makes us happy. As such, we wanted to put it in a less obvious place, along with letting the app be more than just a period tracker, which led us to Happy Home.
