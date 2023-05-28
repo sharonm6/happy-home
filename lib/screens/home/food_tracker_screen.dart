@@ -28,6 +28,7 @@ class _FoodTrackerScreenState extends State<FoodTrackerScreen> {
   @override
   Widget build(BuildContext context) {
     String? mealTableImg;
+    String? mealShelfImg;
 
     return StreamBuilder<List<MealLog>>(
         stream: databaseService.mealLog,
@@ -68,8 +69,23 @@ class _FoodTrackerScreenState extends State<FoodTrackerScreen> {
               mealTableImg = "assets/meal_table_111.png";
             }
 
+            if (mealLog.numSnacks == 0) {
+              mealShelfImg = "assets/meal_shelf_0.png";
+            } else if (mealLog.numSnacks == 1) {
+              mealShelfImg = "assets/meal_shelf_1.png";
+            } else if (mealLog.numSnacks == 2) {
+              mealShelfImg = "assets/meal_shelf_2.png";
+            } else if (mealLog.numSnacks == 3) {
+              mealShelfImg = "assets/meal_shelf_3.png";
+            } else {
+              mealShelfImg = "assets/meal_shelf_4.png";
+            }
+
             return Column(children: [
               FoodCalendar(uid: widget._uid, mealLogs: mealInfos),
+              Image.asset(
+                mealShelfImg ?? 'assets/meal_shelf_0.png',
+              ),
               ElevatedButton(
                 onPressed: () async => {
                   await DatabaseService().updateMealLogData(
