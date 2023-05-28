@@ -72,6 +72,23 @@ class _FoodTrackerScreenState extends State<FoodTrackerScreen> {
             return Column(children: [
               Text('Food Tracker', style: TextStyle(fontSize: 30)),
               FoodCalendar(uid: widget._uid, mealLogs: mealInfos),
+              ElevatedButton(
+                onPressed: () async => {
+                  await DatabaseService().updateMealLogData(
+                      widget._uid, DateTime.now(),
+                      addSnack: true)
+                },
+                child: Text('Ate A\nSnack',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20,
+                    )),
+                style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(),
+                  padding: EdgeInsets.all(30),
+                  backgroundColor: Colors.blue, // <-- Button color
+                ),
+              ),
               Center(
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
