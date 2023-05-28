@@ -76,73 +76,76 @@ class _FoodTrackerScreenState extends State<FoodTrackerScreen> {
                       widget._uid, DateTime.now(),
                       addSnack: true)
                 },
-                child: Text('Ate A\nSnack',
+                child: Text('Ate a\nSnack',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 20,
                     )),
                 style: ElevatedButton.styleFrom(
                   shape: CircleBorder(),
-                  padding: EdgeInsets.all(30),
+                  padding: EdgeInsets.all(35),
                   backgroundColor: Colors.blue, // <-- Button color
                 ),
               ),
               Center(
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                    ElevatedButton(
-                      onPressed: () async => {
-                        await DatabaseService().updateMealLogData(
-                            widget._uid, DateTime.now(),
-                            ateBreakfast: true)
-                      },
-                      child: Text('Ate\nBreakfast',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20,
-                          )),
-                      style: ElevatedButton.styleFrom(
-                        shape: CircleBorder(),
-                        padding: EdgeInsets.all(30),
-                        backgroundColor: Colors.blue, // <-- Button color
+                  child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () async => {
+                          await DatabaseService().updateMealLogData(
+                              widget._uid, DateTime.now(),
+                              ateBreakfast: true)
+                        },
+                        child: Text('Ate\nBreakfast',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20,
+                            )),
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                          padding: EdgeInsets.all(35),
+                          backgroundColor: Colors.blue, // <-- Button color
+                        ),
                       ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () async => {
-                        await DatabaseService().updateMealLogData(
-                            widget._uid, DateTime.now(),
-                            ateLunch: true)
-                      },
-                      child: Text('Ate\nLunch',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20,
-                          )),
-                      style: ElevatedButton.styleFrom(
-                        shape: CircleBorder(),
-                        padding: EdgeInsets.all(30),
-                        backgroundColor: Colors.blue, // <-- Button color
+                      ElevatedButton(
+                        onPressed: () async => {
+                          await DatabaseService().updateMealLogData(
+                              widget._uid, DateTime.now(),
+                              ateLunch: true)
+                        },
+                        child: Text('Ate\nLunch',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20,
+                            )),
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                          padding: EdgeInsets.all(35),
+                          backgroundColor: Colors.blue, // <-- Button color
+                        ),
                       ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () async => {
-                        await DatabaseService().updateMealLogData(
-                            widget._uid, DateTime.now(),
-                            ateDinner: true)
-                      },
-                      child: Text('Ate\nDinner',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20,
-                          )),
-                      style: ElevatedButton.styleFrom(
-                        shape: CircleBorder(),
-                        padding: EdgeInsets.all(30),
-                        backgroundColor: Colors.blue, // <-- Button color
+                      ElevatedButton(
+                        onPressed: () async => {
+                          await DatabaseService().updateMealLogData(
+                              widget._uid, DateTime.now(),
+                              ateDinner: true)
+                        },
+                        child: Text('Ate\nDinner',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20,
+                            )),
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                          padding: EdgeInsets.all(35),
+                          backgroundColor: Colors.blue, // <-- Button color
+                        ),
                       ),
-                    ),
-                  ])),
+                    ]),
+              )),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Image.asset(

@@ -150,9 +150,13 @@ class FoodCalendar extends StatelessWidget {
               child: Text(
                 (index + 1).toString(), // indexing starts at 0
                 textAlign: TextAlign.left,
+                style: const TextStyle(fontSize: 11),
               ),
             ),
-            img,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(13, 13, 3, 0),
+              child: img,
+            ),
           ],
         ),
       );
@@ -163,13 +167,16 @@ class FoodCalendar extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 8),
-        Text(
-          MONTH_NAMES[firstDayOfCurrMonth().month - 1],
-          style: const TextStyle(fontSize: 12),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+          child: Text(
+            MONTH_NAMES[firstDayOfCurrMonth().month - 1],
+            style: const TextStyle(fontSize: 12),
+          ),
         ),
         const SizedBox(height: 8),
         GridView.count(
-          padding: EdgeInsets.zero,
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
           crossAxisCount: 7,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
