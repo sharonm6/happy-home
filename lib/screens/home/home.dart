@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:happy_home/components/loading.dart';
 import 'package:happy_home/config/color_constants.dart';
 import 'package:happy_home/models/meal_log.dart';
 import 'package:happy_home/screens/home/fitness_tracker_screen.dart';
@@ -23,7 +22,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
-  int navBarIdx = 4;
+  int navBarIdx = 0;
+
+  setNavBarIdx(idx) {
+    setState(() {
+      navBarIdx = idx;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +38,7 @@ class _HomeState extends State<Home> {
           if (userSnapshot.hasData) {
             User userInfo = userSnapshot.data!;
             List<Widget> pages = [
-              HomeScreen(user: userInfo),
+              HomeScreen(user: userInfo, setNavBarIdx: setNavBarIdx),
               FoodTrackerScreen(uid: userInfo.uid),
               PeriodTrackerScreen(uid: userInfo.uid),
               WaterTrackerScreen(uid: userInfo.uid),
