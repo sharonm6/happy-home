@@ -23,7 +23,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
-  int navBarIdx = 3;
+  int navBarIdx = 1;
 
   @override
   Widget build(BuildContext context) {

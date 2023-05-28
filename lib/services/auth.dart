@@ -26,11 +26,16 @@ class AuthService {
       firebase_auth.UserCredential result = await _auth
           .signInWithEmailAndPassword(email: email, password: password);
       firebase_auth.User? user = result.user;
-
       if (user != null &&
           user!.metadata != null &&
           user!.metadata!.lastSignInTime != null) {
-        if (user!.metadata!.lastSignInTime!.isBefore(DateTime.now())) {
+        DateTime lastLoginTime = user!.metadata!.lastSignInTime!;
+        DateTime lastLoginDay = DateTime(
+            lastLoginTime.year, lastLoginTime.month, lastLoginTime.day);
+        DateTime currLoginDay = DateTime(
+            DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+        if (lastLoginDay.isBefore(currLoginDay)) {
           await DatabaseService(uid: user!.uid)
               .createMealLog(user!.uid, DateTime.now());
           await DatabaseService(uid: user!.uid)
