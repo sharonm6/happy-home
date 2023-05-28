@@ -107,7 +107,8 @@ class DatabaseService {
 
   Stream<List<MealLog>> get mealLog {
     return mealLogCollection
-        .where('uid', isEqualTo: uid).orderBy('date', descending: false)
+        .where('uid', isEqualTo: uid)
+        .orderBy('date', descending: false)
         .snapshots()
         .map((snapshot) {
       if (snapshot.docs.isNotEmpty) {
@@ -129,7 +130,7 @@ class DatabaseService {
 
   Future<List<dynamic>> getMealLog(String uid, DateTime date) async {
     List<DateTime> dayRange = getDayRange(date);
-    
+
     QuerySnapshot querySnapshot = await mealLogCollection
         .where('uid', isEqualTo: uid)
         .where('date', isLessThanOrEqualTo: dayRange[1])
