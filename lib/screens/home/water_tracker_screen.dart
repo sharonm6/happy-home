@@ -34,7 +34,6 @@ class _WaterTrackerScreenState extends State<WaterTrackerScreen> {
             WaterLog _waterLog = waterInfos[0];
 
             return Column(children: [
-              Text('Water Tracker', style: TextStyle(fontSize: 30)),
               ListTile(
                 leading: CircleAvatar(
                   radius: 25.0,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:happy_home/models/meal_log.dart';
-import 'package:happy_home/screens/home/meal_tile.dart';
 import 'package:happy_home/components/loading.dart';
 import 'package:happy_home/services/database.dart';
 import 'package:happy_home/screens/home/food_calendar.dart';
@@ -70,7 +69,6 @@ class _FoodTrackerScreenState extends State<FoodTrackerScreen> {
             }
 
             return Column(children: [
-              Text('Food Tracker', style: TextStyle(fontSize: 30)),
               FoodCalendar(uid: widget._uid, mealLogs: mealInfos),
               ElevatedButton(
                 onPressed: () async => {

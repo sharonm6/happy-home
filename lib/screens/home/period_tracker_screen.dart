@@ -34,7 +34,6 @@ class _PeriodTrackerScreenState extends State<PeriodTrackerScreen> {
             PeriodLog _periodLog = periodInfos[0];
 
             return Column(children: [
-              Text('Period Tracker', style: TextStyle(fontSize: 30)),
               ListTile(
                 leading: CircleAvatar(
                   radius: 25.0,

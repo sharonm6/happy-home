@@ -39,7 +39,12 @@ class Main extends StatelessWidget {
         //   },
         // )
       ],
-      child: MaterialApp(home: Wrapper(), debugShowCheckedModeBanner: false),
+      child: MaterialApp(
+          initialRoute: '/',
+          routes: {
+            '/': (context) => Wrapper(),
+          },
+          debugShowCheckedModeBanner: false),
     );
   }
 }

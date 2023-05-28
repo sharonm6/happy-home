@@ -34,7 +34,6 @@ class _FitnessTrackerScreenState extends State<FitnessTrackerScreen> {
             FitnessLog _fitnessLog = fitnessInfos[0];
 
             return Column(children: [
-              Text('Fitness Tracker', style: TextStyle(fontSize: 30)),
               ListTile(
                 leading: CircleAvatar(
                   radius: 25.0,
