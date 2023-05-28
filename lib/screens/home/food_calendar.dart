@@ -4,7 +4,20 @@ import 'dart:async';
 import 'package:happy_home/models/meal_log.dart';
 import 'package:happy_home/services/database.dart';
 
-const MONTH_NAMES = ['JANUARY', 'FEBRUARY', 'MARCH', "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+const MONTH_NAMES = [
+  'JANUARY',
+  'FEBRUARY',
+  'MARCH',
+  "APRIL",
+  "MAY",
+  "JUNE",
+  "JULY",
+  "AUGUST",
+  "SEPTEMBER",
+  "OCTOBER",
+  "NOVEMBER",
+  "DECEMBER"
+];
 
 // Shows the showering calendar
 class FoodCalendar extends StatelessWidget {
@@ -12,12 +25,15 @@ class FoodCalendar extends StatelessWidget {
   final List<MealLog> mealLogs;
   //final DatabaseService databaseService;
 
-
-  const FoodCalendar({Key? key, required this.uid, required this.mealLogs}) : super(key: key);
+  const FoodCalendar({Key? key, required this.uid, required this.mealLogs})
+      : super(key: key);
 
   int daysInCurrentMonth() {
     final start = firstDayOfCurrMonth();
-    return DateTimeRange(start: start, end: DateTime(start.year, start.month + 1)).duration.inDays;
+    return DateTimeRange(
+            start: start, end: DateTime(start.year, start.month + 1))
+        .duration
+        .inDays;
   }
 
   DateTime firstDayOfCurrMonth() {
@@ -38,7 +54,8 @@ class FoodCalendar extends StatelessWidget {
         textAlign: TextAlign.center,
       ));
     });
-    final List<Widget> dayOffset = List.generate(firstDayOfCurrMonth().weekday % 7, (index) {
+    final List<Widget> dayOffset =
+        List.generate(firstDayOfCurrMonth().weekday % 7, (index) {
       return const Center(
         child: Align(
           alignment: Alignment.topLeft,
@@ -50,7 +67,8 @@ class FoodCalendar extends StatelessWidget {
       );
     });
 
-    final List<Widget> calendarGridCells = List.generate(daysInCurrentMonth(), <Widget>(index) {
+    final List<Widget> calendarGridCells =
+        List.generate(daysInCurrentMonth(), <Widget>(index) {
       final firstDayOfMonth = firstDayOfCurrMonth();
       Image img = Image.asset("assets/meal_table_000.png");
       //Color background;
@@ -61,8 +79,9 @@ class FoodCalendar extends StatelessWidget {
       if (logsIndex < mealLogs.length) {
         DateTime day = mealLogs[logsIndex].date;
         DateTime currDay = firstDayOfMonth.add(Duration(days: index));
-        print(DateTime(day.year, day.month, day.day) == DateTime(currDay.year, currDay.month, currDay.day));
-        if (DateTime(day.year, day.month, day.day) == DateTime(currDay.year, currDay.month, currDay.day)) {
+        // print(DateTime(day.year, day.month, day.day) == DateTime(currDay.year, currDay.month, currDay.day));
+        if (DateTime(day.year, day.month, day.day) ==
+            DateTime(currDay.year, currDay.month, currDay.day)) {
           mealLogExists = true;
         }
       }
@@ -72,33 +91,52 @@ class FoodCalendar extends StatelessWidget {
         if (logsIndex + 1 < mealLogs.length) {
           logsIndex++;
         }
-        print('mealLog: ${[mealLog.date, mealLog.ateBreakfast, mealLog.ateLunch, mealLog.ateDinner]}');
+        // print('mealLog: ${[
+        //   mealLog.date,
+        //   mealLog.ateBreakfast,
+        //   mealLog.ateLunch,
+        //   mealLog.ateDinner
+        // ]}');
         if (mealLog.date.isBefore(firstDayOfMonth.add(Duration(days: index)))) {
-          img = Image.asset("assets/empty.png", height: 200); // empty if past today, no data would exist
+          img = Image.asset("assets/empty.png",
+              height: 200); // empty if past today, no data would exist
           //background = Colors.transparent;
-        } 
+        }
         if (!mealLog.ateBreakfast && !mealLog.ateLunch && !mealLog.ateDinner) {
           img = Image.asset("assets/meal_table_000.png", height: 200);
-        } else if (mealLog.ateBreakfast && !mealLog.ateLunch && !mealLog.ateDinner) {
+        } else if (mealLog.ateBreakfast &&
+            !mealLog.ateLunch &&
+            !mealLog.ateDinner) {
           img = Image.asset("assets/meal_table_100.png", height: 200);
-        } else if (!mealLog.ateBreakfast && mealLog.ateLunch && !mealLog.ateDinner) {
+        } else if (!mealLog.ateBreakfast &&
+            mealLog.ateLunch &&
+            !mealLog.ateDinner) {
           img = Image.asset("assets/meal_table_010.png", height: 200);
-        } else if (!mealLog.ateBreakfast && !mealLog.ateLunch && mealLog.ateDinner) {
+        } else if (!mealLog.ateBreakfast &&
+            !mealLog.ateLunch &&
+            mealLog.ateDinner) {
           img = Image.asset("assets/meal_table_001.png", height: 200);
-        } else if (mealLog.ateBreakfast && mealLog.ateLunch && !mealLog.ateDinner) {
+        } else if (mealLog.ateBreakfast &&
+            mealLog.ateLunch &&
+            !mealLog.ateDinner) {
           img = Image.asset("assets/meal_table_110.png", height: 200);
-        } else if (mealLog.ateBreakfast && !mealLog.ateLunch && mealLog.ateDinner) {
+        } else if (mealLog.ateBreakfast &&
+            !mealLog.ateLunch &&
+            mealLog.ateDinner) {
           img = Image.asset("assets/meal_table_101.png", height: 200);
-        } else if (!mealLog.ateBreakfast && mealLog.ateLunch && mealLog.ateDinner) {
+        } else if (!mealLog.ateBreakfast &&
+            mealLog.ateLunch &&
+            mealLog.ateDinner) {
           img = Image.asset("assets/meal_table_011.png", height: 200);
         } else {
           img = Image.asset("assets/meal_table_111.png", height: 200);
         }
-      } else if (firstDayOfMonth.add(Duration(days: index)).isAfter(DateTime.now())){
+      } else if (firstDayOfMonth
+          .add(Duration(days: index))
+          .isAfter(DateTime.now())) {
         img = Image.asset("assets/empty.png", height: 200);
         //background = Colors.transparent;
-      }
-      else {
+      } else {
         img = Image.asset("assets/meal_table_000.png", height: 200);
       }
 
