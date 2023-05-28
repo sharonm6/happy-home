@@ -59,6 +59,12 @@ class _WaterTrackerScreenState extends State<WaterTrackerScreen> {
               SizedBox(height: 8),
               Center(
                 child: Text(
+                  "${_waterLog.cupsDrank} Cup(s) Drank Today",
+                  style: TextStyle(fontSize: 24),
+                ),
+              ),
+              Center(
+                child: Text(
                   "${_waterLog.numDaysOld} Day(s) Old",
                   style: TextStyle(fontSize: 24),
                 ),
